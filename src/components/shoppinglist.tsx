@@ -1,7 +1,8 @@
 import React from 'react';
 import * as Fabric from 'office-ui-fabric-react';
 import { FlexRow } from './flexrow';
-import { IShoppingItem } from '../models/models';
+import { IShoppingItem, IItemDefinition } from '../models/models';
+import { ItemPicker } from './itemPicker';
 
 type ShoppingListProps = {
     onComplete: () => void;
@@ -10,12 +11,8 @@ type ShoppingListProps = {
 };
 
 export const ShoppingList: React.FC<ShoppingListProps> = props => {
-    const [text, setText] = React.useState("");
-
-    // TODO: not sure if these are good candidates for useCallback or useMemo
-    const AddItem = () => {
-        props.setShoppingList([...props.shoppingList, { name: text, purchased: false }]);
-        setText("");
+    const AddItem = (item: IItemDefinition) => {
+        props.setShoppingList([...props.shoppingList, { name: item.name, purchased: false }]);
     }
 
     const DeleteItem = (index: number) => {
@@ -29,6 +26,8 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
         newList[index] = { ...newList[index], purchased };
         props.setShoppingList(newList);
     }
+
+    let margin = "0 5px";
 
     return (
         <>
@@ -50,22 +49,16 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
             )}
 
             {!props.shoppingList || !props.shoppingList.length
-                ? <FlexRow style={{justifyContent: "center"}}>Get started by adding some items to your shopping list!</FlexRow>
+                ? <FlexRow style={{ justifyContent: "center", fontWeight: 300 }}>Get started by adding some items to your shopping list!</FlexRow>
                 : null}
 
-            <FlexRow style={{ justifyContent: "space-between" }}>
-                <Fabric.TextField
-                    styles={{ root: { minWidth: "200px", width: "50%" } }}
-                    value={text}
-                    onChange={(e, newValue) => setText(newValue || "")}
-                />
-                <Fabric.PrimaryButton
-                    text="Add item"
-                    iconProps={{ iconName: "Add" }}
-                    onClick={AddItem}
-                    disabled={!text}
+            <FlexRow>
+                <ItemPicker
+                    styles={{ root: { minWidth: "200px", width: "50%", margin, marginLeft: "auto" } }}
+                    onAddItem={AddItem}
                 />
                 <Fabric.DefaultButton
+                    style={{ margin, marginRight: "auto" }}
                     text="Trip Complete"
                     iconProps={{ iconName: "ShoppingCart" }}
                     onClick={props.onComplete}

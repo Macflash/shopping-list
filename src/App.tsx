@@ -20,9 +20,6 @@ const savedFridgeList = localStorage.getItem("fridge-list") || "[]";
 
 const App: React.FC = () => {
   const [view, setView] = React.useState<View>(savedView as View);
-
-  var x = React.useCallback
-
   const [shoppingList, setShoppingList] = React.useState<IShoppingItem[]>(JSON.parse(savedShoppingList));
   const [fridgeList, setFridgeList] = React.useState<IFridgeItem[]>(JSON.parse(savedFridgeList));
 
@@ -63,6 +60,7 @@ const App: React.FC = () => {
             )]);
 
             setShoppingList([]);
+            setView("Fridge");
         }}
       />;
       break;

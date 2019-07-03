@@ -21,6 +21,7 @@ export type ItemStatus =
     "Leftover";
 
 export type Category =
+    "Other" |
     "Fruit" |
     "Vegetable" |
     "Meat" |
@@ -32,7 +33,6 @@ export type Category =
 export interface IItemDefinition {
     category: Category;
     name: string;
-    initialStatus: ItemStatus;
-    SealedExpirationLength: number; // lets say in days?
-    OpenedExpirationLength: number;
+    expirationLenth: number; // lets say in days?
+    unopenedExpirationLength?: number;
 }

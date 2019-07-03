@@ -1,7 +1,8 @@
 import React from 'react';
 import * as Fabric from 'office-ui-fabric-react';
 import { FlexRow } from './flexrow';
-import { IShoppingItem, IFridgeItem } from '../models/models';
+import { IShoppingItem, IFridgeItem, IItemDefinition } from '../models/models';
+import { ItemPicker } from './itemPicker';
 
 type FridgeListProps = {
     fridgeList: IFridgeItem[];
@@ -9,15 +10,12 @@ type FridgeListProps = {
 };
 
 export const FridgeList: React.FC<FridgeListProps> = props => {
-    const [text, setText] = React.useState("");
     const [date, setDate] = React.useState(new Date());
 
-    // TODO: not sure if these are good candidates for useCallback or useMemo
-    const AddItem = () => {
+    const AddItem = (item: IItemDefinition) => {
         let expires = new Date(date);
-        expires.setDate(expires.getDate() + 7);
-        props.setFridgeList([...props.fridgeList, { name: text, purchased: date, status: "Fresh", expires }]);
-        setText("");
+        expires.setDate(expires.getDate() + item.expirationLenth);
+        props.setFridgeList([...props.fridgeList, { name: item.name, purchased: date, status: "Fresh", expires }]);
     }
 
     const DeleteItem = (index: number) => {
@@ -26,12 +24,7 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
         props.setFridgeList(newList);
     }
 
-    const OpenItem = (index: number, purchased: boolean) => {
-        let newList = [...props.fridgeList];
-        newList[index] = { ...newList[index], purchased: date };
-        props.setFridgeList(newList);
-    }
-
+    let margin = "0 5px";
 
     return (
         <>
@@ -50,17 +43,18 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
             )}
 
             {!props.fridgeList || !props.fridgeList.length
-                ? <FlexRow style={{justifyContent: "center"}}>Get started by adding some items to your fridge!</FlexRow>
+                ? <FlexRow style={{ justifyContent: "center", fontWeight: 300 }}>Get started by adding some items to your fridge!</FlexRow>
                 : null}
 
             <FlexRow style={{ justifyContent: "space-between" }}>
-                <Fabric.DatePicker value={date} onSelectDate={newDate => newDate && setDate(newDate)} />
-                <Fabric.TextField value={text} onChange={(e, newValue) => setText(newValue || "")} />
-                <Fabric.PrimaryButton
-                    text="Add item"
-                    iconProps={{ iconName: "Add" }}
-                    onClick={AddItem}
-                    disabled={!text}
+                <Fabric.DatePicker
+                    style={{ margin, marginLeft: "auto" }}
+                    value={date}
+                    onSelectDate={newDate => newDate && setDate(newDate)}
+                />
+                <ItemPicker
+                    styles={{ root: { minWidth: "200px", width: "50%", margin, marginRight: "auto" } }}
+                    onAddItem={AddItem}
                 />
             </FlexRow>
         </>
