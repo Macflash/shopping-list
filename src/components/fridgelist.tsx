@@ -16,7 +16,7 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
 
     const AddItem = (item: IItemDefinition) => {
         let expires = new Date(date);
-        expires.setDate(expires.getDate() + item.expirationLenth);
+        expires.setDate(expires.getDate() + (item.expirationLenth || 7));
         props.setFridgeList([...props.fridgeList, { name: item.name, category: item.category, purchased: date, status: "Fresh", expires }]);
     }
 

@@ -14,8 +14,8 @@ export const ItemPicker: React.FC<{
             styles={props.styles}
             onValidateInput={input => Fabric.ValidationState.valid}
             onResolveSuggestions={filter => {
-                let items = LookupItems(filter).filter(i =>{
-                    if(props.hiddenItems && props.hiddenItems.some(hiddenName => hiddenName == i.name)){
+                let items = LookupItems(filter).filter(i => {
+                    if (props.hiddenItems && props.hiddenItems.some(hiddenName => hiddenName == i.name)) {
                         return false;
                     }
 
@@ -41,8 +41,7 @@ export const ItemPicker: React.FC<{
 
                     props.onAddItem(definedItem || {
                         name: selectedItem.name,
-                        category: "Other",
-                        expirationLenth: 7
+                        category: "Other"
                     });
                 }
 

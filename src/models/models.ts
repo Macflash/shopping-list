@@ -20,7 +20,7 @@ export interface IFridgeItem extends ICategoryItem {
 
 export interface IItemDefinition extends ICategoryItem {
     name: string;
-    expirationLenth: number; // lets say in days?
+    expirationLenth?: number; // lets say in days?
     unopenedExpirationLength?: number;
 }
 

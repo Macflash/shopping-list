@@ -18,12 +18,12 @@ export const Items: IItemDefinition[] = [
     {
         name: "Broccoli",
         category: "Vegetable",
-        expirationLenth: 5,
+        expirationLenth: 6,
     },
     {
         name: "Lettuce",
         category: "Vegetable",
-        expirationLenth: 7,
+        expirationLenth: 5
     },
     {
         name: "Carrots",

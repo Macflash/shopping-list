@@ -4,8 +4,9 @@ import { ShoppingList } from './components/shoppinglist';
 import { MenuBar } from './components/menubar';
 import { FlexRow } from './components/flexrow';
 import { HeaderRow } from './components/headerrow';
-import { IShoppingItem, IFridgeItem } from './models/models';
+import { IShoppingItem, IFridgeItem, ItemStatus } from './models/models';
 import { FridgeList } from './components/fridgelist';
+import { GetItem } from './models/items';
 
 export type View = "Menu" | "Shop" | "Fridge" | "Cook";
 
@@ -31,7 +32,7 @@ const App: React.FC = () => {
   const menuItems: IMenuItem[] = [
     { key: "Shop", icon: "ShoppingCart" },
     { key: "Fridge", icon: "Door" },
-    { key: "Cook", icon: "EatDrink" },
+    // TODO: { key: "Cook", icon: "EatDrink" },
   ];
 
   let content = null;
@@ -45,15 +46,25 @@ const App: React.FC = () => {
             ...fridgeList,
             ...shoppingList.filter(s => s.purchased).map(
               shoppingItem => {
+                const def = GetItem(shoppingItem.name);
+                let expirationLength = 7;
+                let status: ItemStatus = "Fresh";
+                if (def && def.expirationLenth) {
+                  expirationLength = def.expirationLenth;
+                }
+                if (def && def.unopenedExpirationLength) {
+                  status = "Unopened";
+                }
+
                 let purchased = new Date();
                 let expires = new Date();
-                expires.setDate(purchased.getDate() + 7);
+                expires.setDate(purchased.getDate() + expirationLength);
                 const fridgeItem: IFridgeItem = {
                   name: shoppingItem.name,
                   category: shoppingItem.category,
                   purchased,
                   expires,
-                  status: "Fresh"
+                  status,
                 };
 
                 return fridgeItem;
