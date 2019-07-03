@@ -34,19 +34,41 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
                 <CategoryList
                     items={props.fridgeList}
                     renderItem={(item, index) => {
-                        var expiryDate = new Date(item.expires);
-                        var closeToExpiry = new Date();
-                        closeToExpiry.setDate(closeToExpiry.getDate() + 3);
+                        let expiryContent = null;
+                        let expiryColor = "darkgrey";
 
-                        var warning = false;
-                        if(expiryDate < closeToExpiry){
-                            warning = true;
+                        let textColor = undefined;
+                        let textDecoration = undefined;
+
+                        let expiryDate = new Date(item.expires);
+                        let expiryString = expiryDate.toLocaleDateString("default", { weekday: "long", day: "numeric", month: "numeric" });
+
+                        let longDate = new Date();
+                        longDate.setDate(longDate.getDate() + 30);
+
+                        var closeDate = new Date();
+                        closeDate.setDate(closeDate.getDate() + 3);
+
+                        var currentDate = new Date();
+
+                        if (expiryDate <= currentDate) {
+                            expiryContent = "Expired";
+                            expiryColor = "red";
+                            textDecoration = "line-through";
+                            textColor = "darkgrey";
+                        }
+                        else if (expiryDate <= closeDate) {
+                            expiryColor = "red";
+                            expiryContent = "Expires " + expiryString;
+                        }
+                        else if (expiryDate <= longDate) {
+                            expiryContent = "Expires " + expiryString;
                         }
 
                         return <FlexRow>
-                            <div>{item.name}</div>
-                            <div style={{ color: warning ? "red" : "darkgrey", margin: "0 10px", marginLeft: "auto", fontSize: "80%", fontStyle: "italic" }}>
-                                Expires {expiryDate.toLocaleDateString("default", { weekday: "long", day: "numeric", month: "numeric" })}
+                            <div style={{textDecoration, color: textColor}}>{item.name}</div>
+                            <div style={{ color: expiryColor, margin: "0 10px", marginLeft: "auto", fontSize: "80%", fontStyle: "italic" }}>
+                                {expiryContent}
                             </div>
                             <Fabric.IconButton
                                 style={{ marginLeft: undefined }}

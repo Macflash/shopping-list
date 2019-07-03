@@ -19,7 +19,7 @@ export const CookList: React.FC<CookListProps> = props => {
     // we want to get just the closest expiration date items for each category
     const minValues: {[category: string]: Date} = {};
 
-    props.fridgeList.forEach(item => {
+    props.fridgeList.filter(item => new Date(item.expires) > new Date()).forEach(item => {
         let expiry = new Date(item.expires);
         item.expires = expiry;
         if(!minValues[item.category] || minValues[item.category] > expiry){

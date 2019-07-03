@@ -10,31 +10,26 @@ export const MenuBar: React.FC<{ open?: boolean, menuItems: IMenuItem[], view: V
     const style = { borderBottom: "1px solid lightgrey" };
 
     return (
-        <FlexRow column={true}>
-            {props.open || open
-                ?
-                <>
-                    {props.open ? null : <FlexRow style={style}>
-                        <Fabric.IconButton iconProps={{ iconName: "CollapseMenu" }} onClick={() => setOpen(false)} />
-                    </FlexRow>}
-                    {props.menuItems.map(item =>
-                        <FlexRow style={style}>
-                            <Fabric.ActionButton
-                                iconProps={{ iconName: item.icon }}
-                                text={item.key}
-                                onClick={() => {
-                                    setOpen(false);
-                                    props.setView(item.key);
-                                }}
-                            />
-                        </FlexRow>
-                    )}
-                </>
-                : <FlexRow style={style}>
-                    <Fabric.IconButton iconProps={{ iconName: "CollapseMenu" }} onClick={() => setOpen(true)} />
-                    <HeaderRow sub text={props.view} />
-                </FlexRow>
-            }
+        <FlexRow column={true} style={{ backgroundColor: "#F5F5F5" }}>
+            <FlexRow style={style}>
+                <Fabric.Icon iconName={props.menuItems.find(i => i.key == props.view)!.icon} />
+                <HeaderRow sub text={props.view} />
+                <Fabric.IconButton style={{ marginLeft: "auto" }} iconProps={{ iconName: "CollapseMenu" }} onClick={() => setOpen(!open)} />
+            </FlexRow>
+            {props.open || open ?
+                props.menuItems.filter(item => item.key != props.view).map(item =>
+                    <FlexRow style={style}>
+                        <Fabric.ActionButton
+                            iconProps={{ iconName: item.icon }}
+                            text={item.key}
+                            onClick={() => {
+                                setOpen(false);
+                                props.setView(item.key);
+                            }}
+                        />
+                    </FlexRow>
+                )
+                : null}
         </FlexRow>
     );
 }

@@ -2,7 +2,7 @@ import { IItemDefinition } from "./models";
 
 export const LookupItems = (partialName: string): IItemDefinition[] => Items.filter(item => item.name.toLowerCase().includes(partialName.toLowerCase()));
 
-export const GetItem = (fullName: string): IItemDefinition | undefined => Items.find(item => item.name == fullName);
+export const GetItem = (fullName: string): IItemDefinition | undefined => Items.find(item => item.name.toLowerCase() == fullName.toLowerCase());
 
 export type Category =
     "Other" |
@@ -26,11 +26,12 @@ const GroundMeat = (name: string): IItemDefinition => {
     }
 }
 
-const FilletMeat = (name: string): IItemDefinition => {
+const FilletMeat = (name: string, emoji?: string): IItemDefinition => {
     return {
         name,
         category: "Meat",
-        expirationLenth: 5 // ???
+        expirationLenth: 5,
+        emoji,
     }
 }
 
@@ -38,15 +39,17 @@ const Lettuce = (name: string): IItemDefinition => {
     return {
         name: `${name} Lettuce`,
         category: "Vegetable",
-        expirationLenth: 5 // ???
+        expirationLenth: 5,
+        emoji: "🥬",
     }
 }
 
-const Bread = (name: string): IItemDefinition => {
+const Bread = (name: string, emoji?: string): IItemDefinition => {
     return {
         name,
         category: "Carbs",
         expirationLenth: 7,
+        emoji,
     };
 }
 
@@ -64,9 +67,9 @@ export const Items: IItemDefinition[] = [
     GroundMeat("Ground Turkey"),
     GroundMeat("Ground Sausage"),
 
-    FilletMeat("Steak"),
+    FilletMeat("Steak", "🥩"),
     FilletMeat("Chicken Breast"),
-    FilletMeat("Bacon"),
+    FilletMeat("Bacon", "🥓"),
     FilletMeat("Tuna Fillet"),
     FilletMeat("Salmon Fillet"),
 
@@ -84,11 +87,12 @@ export const Items: IItemDefinition[] = [
     {
         name: "Potatoes",
         category: "Carbs",
-        expirationLenth: 14
+        expirationLenth: 14,
+        emoji: "🥔",
     },
-    Bread("Whole Wheat Bread"),
-    Bread("White Bread"),
-    Bread("Bagels"),
+    Bread("Whole Wheat Bread", "🍞"),
+    Bread("White Bread", "🍞"),
+    Bread("Bagels", "🥯"),
     Bread("English Muffins"),
 
     // VEGGIES
@@ -101,11 +105,13 @@ export const Items: IItemDefinition[] = [
         name: "Broccoli",
         category: "Vegetable",
         expirationLenth: 6,
+        emoji: "🥦",
     },
     {
         name: "Carrots",
         category: "Vegetable",
         expirationLenth: 21,
+        emoji: "🥕",
     },
     
     // DAIRY
@@ -113,6 +119,7 @@ export const Items: IItemDefinition[] = [
         name: "Butter",
         category: "Dairy",
         expirationLenth: 30,
+        emoji: "🧈",
     },
     {
         name: "Yogurt",
@@ -140,6 +147,7 @@ export const Items: IItemDefinition[] = [
         name: "Eggs",
         category: "Other",
         expirationLenth: 7,
+        emoji: "🥚"
     },
 
     // Baking Items and Spices

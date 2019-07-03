@@ -39,6 +39,8 @@ export const ItemPicker: React.FC<{
                 if (selectedItem) {
                     let definedItem = GetItem(selectedItem.name);
 
+                    console.log(definedItem);
+
                     props.onAddItem(definedItem || {
                         name: selectedItem.name,
                         category: "Other"

@@ -20,6 +20,8 @@ const savedView = localStorage.getItem("view-state") || "Shop";
 const savedShoppingList = localStorage.getItem("shopping-list") || "[]";
 const savedFridgeList = localStorage.getItem("fridge-list") || "[]";
 
+// should really do another look up and conversion here, otherwise we won't get new updates to item types
+
 const App: React.FC = () => {
   const [view, setView] = React.useState<View>(savedView as View);
   const [shoppingList, setShoppingList] = React.useState<IShoppingItem[]>(JSON.parse(savedShoppingList));

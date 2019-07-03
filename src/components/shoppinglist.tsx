@@ -14,7 +14,7 @@ type ShoppingListProps = {
 
 export const ShoppingList: React.FC<ShoppingListProps> = props => {
     const AddItem = (item: IItemDefinition) => {
-        props.setShoppingList([...props.shoppingList, { name: item.name, category: item.category, purchased: false }]);
+        props.setShoppingList([...props.shoppingList, { ...item, purchased: false }]);
     }
 
     const DeleteItem = (index: number) => {
@@ -44,6 +44,7 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
                                 PurchaseItem(index, checked || false);
                             }}
                         />
+                        {item.emoji ? <div style={{ margin }}>{item.emoji}</div> : null}
                         <Fabric.IconButton
                             style={{ marginLeft: "auto" }}
                             iconProps={{ iconName: "Delete" }}
