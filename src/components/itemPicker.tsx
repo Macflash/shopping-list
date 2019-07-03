@@ -6,6 +6,7 @@ import { IItemDefinition } from '../models/models';
 export const ItemPicker: React.FC<{
     styles: Fabric.IStyleFunction<Fabric.IBasePickerStyleProps, Fabric.IBasePickerStyles> | Partial<Fabric.IBasePickerStyles> | undefined,
     onAddItem: (item: IItemDefinition) => void,
+    hiddenItems?: string[],
 }> = props => {
     return (
         <Fabric.TagPicker
@@ -13,7 +14,13 @@ export const ItemPicker: React.FC<{
             styles={props.styles}
             onValidateInput={input => Fabric.ValidationState.valid}
             onResolveSuggestions={filter => {
-                let items = LookupItems(filter).map(i => {
+                let items = LookupItems(filter).filter(i =>{
+                    if(props.hiddenItems && props.hiddenItems.some(hiddenName => hiddenName == i.name)){
+                        return false;
+                    }
+
+                    return true;
+                }).map(i => {
                     var tag: Fabric.ITag = {
                         key: i.name,
                         name: i.name,

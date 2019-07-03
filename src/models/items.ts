@@ -4,6 +4,16 @@ export const LookupItems = (partialName: string): IItemDefinition[] => Items.fil
 
 export const GetItem = (fullName: string): IItemDefinition | undefined => Items.find(item => item.name == fullName);
 
+export type Category =
+    "Other" |
+    "Fruit" |
+    "Vegetable" |
+    "Meat" |
+    "Dairy" |
+    "Grain" |
+    "Canned" |
+    "Frozen";
+
 export const Items: IItemDefinition[] = [
     {
         name: "Broccoli",

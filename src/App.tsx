@@ -50,6 +50,7 @@ const App: React.FC = () => {
                 expires.setDate(purchased.getDate() + 7);
                 const fridgeItem: IFridgeItem = {
                   name: shoppingItem.name,
+                  category: shoppingItem.category,
                   purchased,
                   expires,
                   status: "Fresh"
@@ -59,8 +60,8 @@ const App: React.FC = () => {
               }
             )]);
 
-            setShoppingList([]);
-            setView("Fridge");
+          setShoppingList([]);
+          setView("Fridge");
         }}
       />;
       break;
@@ -72,7 +73,7 @@ const App: React.FC = () => {
       break;
   }
 
-  return <FlexRow column>
+  return <FlexRow column style={{ height: "100%", width: "100%", position: "absolute" }}>
     <MenuBar menuItems={menuItems} setView={setView} open={!content} />
     {content ? <HeaderRow text={view} /> : null}
     {content}

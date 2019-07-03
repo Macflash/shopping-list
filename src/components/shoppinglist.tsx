@@ -3,6 +3,8 @@ import * as Fabric from 'office-ui-fabric-react';
 import { FlexRow } from './flexrow';
 import { IShoppingItem, IItemDefinition } from '../models/models';
 import { ItemPicker } from './itemPicker';
+import { CategoryList } from './categorylist';
+import { ActionList } from './actionlist';
 
 type ShoppingListProps = {
     onComplete: () => void;
@@ -12,7 +14,7 @@ type ShoppingListProps = {
 
 export const ShoppingList: React.FC<ShoppingListProps> = props => {
     const AddItem = (item: IItemDefinition) => {
-        props.setShoppingList([...props.shoppingList, { name: item.name, purchased: false }]);
+        props.setShoppingList([...props.shoppingList, { name: item.name, category: item.category, purchased: false }]);
     }
 
     const DeleteItem = (index: number) => {
@@ -30,33 +32,36 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
     let margin = "0 5px";
 
     return (
-        <>
-            {props.shoppingList.map((item, index) =>
-                <FlexRow>
-                    <Fabric.Checkbox
-                        label={item.name}
-                        checked={item.purchased}
-                        onChange={(ev, checked) => {
-                            PurchaseItem(index, checked || false);
-                        }}
-                    />
-                    <Fabric.IconButton
-                        style={{ marginLeft: "auto" }}
-                        iconProps={{ iconName: "Delete" }}
-                        onClick={() => { DeleteItem(index); }}
-                    />
-                </FlexRow>
-            )}
+        <ActionList
+            list={[
+                <CategoryList
+                    items={props.shoppingList}
+                    renderItem={(item, index) => <FlexRow>
+                        <Fabric.Checkbox
+                            label={item.name}
+                            checked={item.purchased}
+                            onChange={(ev, checked) => {
+                                PurchaseItem(index, checked || false);
+                            }}
+                        />
+                        <Fabric.IconButton
+                            style={{ marginLeft: "auto" }}
+                            iconProps={{ iconName: "Delete" }}
+                            onClick={() => { DeleteItem(index); }}
+                        />
+                    </FlexRow>}
+                />,
+                !props.shoppingList || !props.shoppingList.length
+                    ? <FlexRow style={{ justifyContent: "center", fontWeight: 300 }}>Get started by adding some items to your shopping list!</FlexRow>
+                    : null
+            ]}
 
-            {!props.shoppingList || !props.shoppingList.length
-                ? <FlexRow style={{ justifyContent: "center", fontWeight: 300 }}>Get started by adding some items to your shopping list!</FlexRow>
-                : null}
-
-            <FlexRow>
+            actions={[
                 <ItemPicker
                     styles={{ root: { minWidth: "200px", width: "50%", margin, marginLeft: "auto" } }}
                     onAddItem={AddItem}
-                />
+                    hiddenItems={props.shoppingList.map(s => s.name)}
+                />,
                 <Fabric.DefaultButton
                     style={{ margin, marginRight: "auto" }}
                     text="Trip Complete"
@@ -64,7 +69,7 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
                     onClick={props.onComplete}
                     disabled={props.shoppingList.length < 1 || !props.shoppingList.some(i => i.purchased)}
                 />
-            </FlexRow>
-        </>
+            ]}
+        />
     );
 }

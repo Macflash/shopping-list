@@ -1,18 +1,4 @@
-export interface IAppState {
-    ShoppingList: IShoppingItem[];
-}
-
-export interface IShoppingItem {
-    name: string;
-    purchased: boolean;
-}
-
-export interface IFridgeItem {
-    name: string;
-    purchased: Date;
-    expires: Date;
-    status: ItemStatus;
-}
+import { Category } from "./items";
 
 export type ItemStatus =
     "Unopened" |
@@ -20,19 +6,24 @@ export type ItemStatus =
     "Fresh" |
     "Leftover";
 
-export type Category =
-    "Other" |
-    "Fruit" |
-    "Vegetable" |
-    "Meat" |
-    "Dairy" |
-    "Grain" |
-    "Canned" |
-    "Frozen";
+export interface IShoppingItem extends ICategoryItem {
+    name: string;
+    purchased: boolean;
+}
 
-export interface IItemDefinition {
-    category: Category;
+export interface IFridgeItem extends ICategoryItem {
+    name: string;
+    purchased: Date;
+    expires: Date;
+    status: ItemStatus;
+}
+
+export interface IItemDefinition extends ICategoryItem {
     name: string;
     expirationLenth: number; // lets say in days?
     unopenedExpirationLength?: number;
+}
+
+export interface ICategoryItem {
+    category: Category;
 }
