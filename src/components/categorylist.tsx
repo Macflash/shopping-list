@@ -9,10 +9,17 @@ export interface ICategoryListProps<T> {
     renderItem: (item: T, index: number) => JSX.Element,
 }
 
+interface IndexedItem extends ICategoryItem {
+    index: number;
+}
+
 export class CategoryList<T extends ICategoryItem> extends React.Component<ICategoryListProps<T>> {
     render() {
+        let itemsToSort = [...this.props.items] as any as IndexedItem[];
+        itemsToSort.forEach((item, index) => item.index = index);
+
         // sort the items by category, and add a title when it changes!
-        const sortedItems = [...this.props.items].sort((a, b) => {
+        const sortedItems = itemsToSort.sort((a, b) => {
             const aCat = a.category || "Other";
             const bCat = b.category || "Other";
             if (aCat < bCat) {
@@ -27,13 +34,13 @@ export class CategoryList<T extends ICategoryItem> extends React.Component<ICate
 
         const items: JSX.Element[] = [];
         let lastCat: Category | undefined = undefined;
-        sortedItems.forEach((item, index) => {
+        sortedItems.forEach(item => {
             if (lastCat != item.category) {
                 lastCat = item.category;
                 items.push(<HeaderRow text={lastCat || "Other"} key={lastCat} />);
             }
 
-            items.push(this.props.renderItem(item, index));
+            items.push(this.props.renderItem(item as any as T, item.index));
         });
 
         return <div style={{ overflowY: "auto" }}>{items}</div>;

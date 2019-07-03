@@ -2,8 +2,9 @@ import React from 'react';
 import * as Fabric from 'office-ui-fabric-react';
 import { FlexRow } from './flexrow';
 import { IMenuItem, View } from '../App';
+import { HeaderRow } from './headerrow';
 
-export const MenuBar: React.FC<{ open?: boolean, menuItems: IMenuItem[], setView: React.Dispatch<React.SetStateAction<View>> }> = props => {
+export const MenuBar: React.FC<{ open?: boolean, menuItems: IMenuItem[], view: View, setView: React.Dispatch<React.SetStateAction<View>> }> = props => {
     const [open, setOpen] = React.useState(false);
 
     const style = { borderBottom: "1px solid lightgrey" };
@@ -31,6 +32,7 @@ export const MenuBar: React.FC<{ open?: boolean, menuItems: IMenuItem[], setView
                 </>
                 : <FlexRow style={style}>
                     <Fabric.IconButton iconProps={{ iconName: "CollapseMenu" }} onClick={() => setOpen(true)} />
+                    <HeaderRow sub text={props.view} />
                 </FlexRow>
             }
         </FlexRow>

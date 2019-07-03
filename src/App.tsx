@@ -92,8 +92,7 @@ const App: React.FC = () => {
   }
 
   return <FlexRow column style={{ height: "100%", width: "100%", position: "absolute" }}>
-    <MenuBar menuItems={menuItems} setView={setView} open={!content} />
-    {content ? <HeaderRow text={view} /> : null}
+    <MenuBar menuItems={menuItems} setView={setView} open={!content} view={view} />
     {content}
   </FlexRow>;
 }

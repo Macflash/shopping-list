@@ -161,4 +161,13 @@ export const Items: IItemDefinition[] = [
     BakingItem("Rosemary"),
     BakingItem("Sage"),
     BakingItem("Thyme"),
+    BakingItem("Dried Basil"),
+
+    // Saucy boys
+    BakingItem("Soy Sauce"),
+    BakingItem("Worchestershire Sauce"),
+    BakingItem("Balsamic Vinegar"),
+    BakingItem("White Vinegar"),
+    BakingItem("Red Wine Vinegar"),
+
 ];

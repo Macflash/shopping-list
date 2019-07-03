@@ -9,7 +9,7 @@ export const FlexRow: React.FC<{ fill?: boolean, column?: boolean, style?: any }
             padding: props.column ? undefined : "10px",
             flexDirection: props.column ? "column" : "row",
             flex: props.fill ? "auto" : "none",
-            ...props.style
+            ...props.style,
         }}>
             {props.children}
         </div>
