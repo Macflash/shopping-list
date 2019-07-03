@@ -47,14 +47,14 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
                 : null}
 
             <FlexRow style={{ justifyContent: "space-between" }}>
+                <ItemPicker
+                    styles={{ root: { minWidth: "200px", width: "50%", margin, marginLeft: "auto" } }}
+                    onAddItem={AddItem}
+                />
                 <Fabric.DatePicker
-                    style={{ margin, marginLeft: "auto" }}
+                    style={{ margin, marginRight: "auto" }}
                     value={date}
                     onSelectDate={newDate => newDate && setDate(newDate)}
-                />
-                <ItemPicker
-                    styles={{ root: { minWidth: "200px", width: "50%", margin, marginRight: "auto" } }}
-                    onAddItem={AddItem}
                 />
             </FlexRow>
         </>
