@@ -16,7 +16,18 @@ export const MenuBar: React.FC<{ open?: boolean, menuItems: IMenuItem[], setView
                     {props.open ? null : <FlexRow style={style}>
                         <Fabric.IconButton iconProps={{ iconName: "CollapseMenu" }} onClick={() => setOpen(false)} />
                     </FlexRow>}
-                    {props.menuItems.map(item => <FlexRow style={style}><Fabric.ActionButton iconProps={{ iconName: item.icon }} text={item.name} onClick={() => props.setView(item.key)} /></FlexRow>)}
+                    {props.menuItems.map(item =>
+                        <FlexRow style={style}>
+                            <Fabric.ActionButton
+                                iconProps={{ iconName: item.icon }}
+                                text={item.key}
+                                onClick={() => {
+                                    setOpen(false);
+                                    props.setView(item.key);
+                                }}
+                            />
+                        </FlexRow>
+                    )}
                 </>
                 : <FlexRow style={style}>
                     <Fabric.IconButton iconProps={{ iconName: "CollapseMenu" }} onClick={() => setOpen(true)} />

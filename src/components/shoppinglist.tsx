@@ -4,17 +4,15 @@ import { FlexRow } from './flexrow';
 
 export const ShoppingList: React.FC = () => {
     return (
-        <div>
-            <h3>List</h3>
-
+        <>
             <FlexRow>
                 <Fabric.Checkbox label="item 1" />
             </FlexRow>
 
-            <FlexRow>
+            <FlexRow style={{justifyContent: "space-around"}}>
                 <Fabric.PrimaryButton text="Add item" iconProps={{ iconName: "Add" }} />
+                <Fabric.DefaultButton style={{ marginLeft: undefined }} text="Trip Complete" iconProps={{ iconName: "ShoppingCart" }} />
             </FlexRow>
-            
-        </div>
+        </>
     );
 }
