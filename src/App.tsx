@@ -4,6 +4,7 @@ import { ShoppingList } from './components/shoppinglist';
 import { MenuBar } from './components/menubar';
 import { FlexRow } from './components/flexrow';
 import { HeaderRow } from './components/headerrow';
+import { IShoppingItem } from './models/models';
 
 export type View = "Menu" | "Shop" | "Fridge" | "Cook";
 
@@ -14,6 +15,9 @@ export interface IMenuItem {
 
 const App: React.FC = () => {
   const [view, setView] = React.useState<View>("Shop");
+
+  const [shoppingList, setShoppingList] = React.useState<IShoppingItem[]>([]);
+
   const menuItems: IMenuItem[] = [
     { key: "Shop", icon: "ShoppingCart" },
     { key: "Fridge", icon: "Door" },
@@ -23,17 +27,7 @@ const App: React.FC = () => {
   let content = null;
   switch (view) {
     case "Shop":
-      content = 
-      <>
-          <FlexRow>
-              <Fabric.Checkbox label="item 1" />
-          </FlexRow>
-
-          <FlexRow style={{justifyContent: "space-around"}}>
-              <Fabric.PrimaryButton text="Add item" iconProps={{ iconName: "Add" }} />
-              <Fabric.DefaultButton style={{ marginLeft: undefined }} text="Trip Complete" iconProps={{ iconName: "ShoppingCart" }} />
-          </FlexRow>
-      </>;
+      content = <ShoppingList shoppingList={shoppingList} setShoppingList={setShoppingList} />;
   }
 
   return <FlexRow column>

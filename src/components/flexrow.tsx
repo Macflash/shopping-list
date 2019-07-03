@@ -6,9 +6,10 @@ export const FlexRow: React.FC<{ fill?: boolean, column?: boolean, style?: any }
         <div style={{
             ...props.style,
             display: "flex",
+            alignItems: props.column ? undefined : "center",
             padding: props.column ? undefined : "10px",
             flexDirection: props.column ? "column" : "row",
-            flex: props.fill ? "auto" : "none"
+            flex: props.fill ? "auto" : "none",
         }}>
             {props.children}
         </div>
