@@ -44,9 +44,8 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
                             onClick={() => { DeleteItem(index); }}
                         />
                     </FlexRow>}
-                />
-
-                , !props.fridgeList || !props.fridgeList.length
+                />,
+                !props.fridgeList || !props.fridgeList.length
                     ? <FlexRow style={{ justifyContent: "center", fontWeight: 300 }}>Get started by adding some items to your fridge!</FlexRow>
                     : null
             ]}
