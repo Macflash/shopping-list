@@ -29,7 +29,7 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
     }
 
     const CompleteTrip = () => {
-
+        console.log("TODO! Complete your shopping trip.")
     }
 
     return (
@@ -63,7 +63,8 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
                     style={{ marginLeft: undefined }}
                     text="Trip Complete"
                     iconProps={{ iconName: "ShoppingCart" }}
-                    disabled={props.shoppingList.length < 1}
+                    onClick={CompleteTrip}
+                    disabled={props.shoppingList.length < 1 && props.shoppingList.some(i => i.purchased)}
                 />
             </FlexRow>
         </>
