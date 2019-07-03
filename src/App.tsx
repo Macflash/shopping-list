@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ShoppingList } from './components/shoppinglist';
+import { MenuBar } from './components/menubar';
+import { FlexRow } from './components/flexrow';
+
+export type View = "menu" | "list" | "fridge" | "cook";
+
+export interface IMenuItem {
+  name: string;
+  key: View;
+  icon?: string;
+}
 
 const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [view, setView] = React.useState<View>("list");
+  const menuItems: IMenuItem[] = [
+    { key: "list", name: "Shop", icon: "ShoppingCart" },
+    { key: "fridge", name: "Fridge", icon: "Door" },
+    { key: "cook", name: "Cook", icon: "EatDrink" },
+  ];
+
+  let content = null;
+  switch (view) {
+    case "list":
+      content = <ShoppingList />;
+  }
+
+  return <FlexRow column>
+    <MenuBar menuItems={menuItems} setView={setView} open={!content} />
+    {content}
+  </FlexRow>;
 }
 
 export default App;
