@@ -7,6 +7,7 @@ import { HeaderRow } from './components/headerrow';
 import { IShoppingItem, IFridgeItem, ItemStatus } from './models/models';
 import { FridgeList } from './components/fridgelist';
 import { GetItem } from './models/items';
+import { CookList } from './components/cooklist';
 
 export type View = "Menu" | "Shop" | "Fridge" | "Cook";
 
@@ -32,7 +33,7 @@ const App: React.FC = () => {
   const menuItems: IMenuItem[] = [
     { key: "Shop", icon: "ShoppingCart" },
     { key: "Fridge", icon: "Door" },
-    // TODO: { key: "Cook", icon: "EatDrink" },
+    { key: "Cook", icon: "EatDrink" },
   ];
 
   let content = null;
@@ -81,6 +82,12 @@ const App: React.FC = () => {
         fridgeList={fridgeList}
         setFridgeList={setFridgeList}
       />;
+      break;
+    case "Cook":
+      content = <CookList
+        fridgeList={fridgeList}
+        setFridgeList={setFridgeList}
+      />
       break;
   }
 

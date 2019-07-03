@@ -4,6 +4,7 @@ export type ItemStatus =
     "Unopened" |
     "Opened" |
     "Fresh" |
+    "Frozen" |
     "Leftover";
 
 export interface IShoppingItem extends ICategoryItem {

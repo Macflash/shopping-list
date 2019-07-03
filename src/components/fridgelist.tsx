@@ -33,17 +33,29 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
             list={[
                 <CategoryList
                     items={props.fridgeList}
-                    renderItem={(item, index) => <FlexRow>
-                        <div>{item.name}</div>
-                        <div style={{ color: "darkgrey", margin: "0 10px", marginLeft: "auto", fontSize: "80%", fontStyle: "italic" }}>
-                            Expires {new Date(item.expires).toLocaleDateString("default", { weekday: "long", day: "numeric", month: "numeric" })}
-                        </div>
-                        <Fabric.IconButton
-                            style={{ marginLeft: undefined }}
-                            iconProps={{ iconName: "Delete" }}
-                            onClick={() => { DeleteItem(index); }}
-                        />
-                    </FlexRow>}
+                    renderItem={(item, index) => {
+                        var expiryDate = new Date(item.expires);
+                        var closeToExpiry = new Date();
+                        closeToExpiry.setDate(closeToExpiry.getDate() + 3);
+
+                        var warning = false;
+                        if(expiryDate < closeToExpiry){
+                            warning = true;
+                        }
+
+                        return <FlexRow>
+                            <div>{item.name}</div>
+                            <div style={{ color: warning ? "red" : "darkgrey", margin: "0 10px", marginLeft: "auto", fontSize: "80%", fontStyle: "italic" }}>
+                                Expires {expiryDate.toLocaleDateString("default", { weekday: "long", day: "numeric", month: "numeric" })}
+                            </div>
+                            <Fabric.IconButton
+                                style={{ marginLeft: undefined }}
+                                iconProps={{ iconName: "Delete" }}
+                                onClick={() => { DeleteItem(index); }}
+                            />
+                        </FlexRow>
+                    }
+                    }
                 />,
                 !props.fridgeList || !props.fridgeList.length
                     ? <FlexRow style={{ justifyContent: "center", fontWeight: 300 }}>Get started by adding some items to your fridge!</FlexRow>
