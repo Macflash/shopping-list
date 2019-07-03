@@ -4,6 +4,7 @@ import { FlexRow } from './flexrow';
 import { IShoppingItem } from '../models/models';
 
 type ShoppingListProps = {
+    onComplete: () => void;
     shoppingList: IShoppingItem[];
     setShoppingList: React.Dispatch<React.SetStateAction<IShoppingItem[]>>;
 };
@@ -11,6 +12,7 @@ type ShoppingListProps = {
 export const ShoppingList: React.FC<ShoppingListProps> = props => {
     const [text, setText] = React.useState("");
 
+    // TODO: not sure if these are good candidates for useCallback or useMemo
     const AddItem = () => {
         props.setShoppingList([...props.shoppingList, { name: text, purchased: false }]);
         setText("");
@@ -26,10 +28,6 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
         let newList = [...props.shoppingList];
         newList[index] = { ...newList[index], purchased };
         props.setShoppingList(newList);
-    }
-
-    const CompleteTrip = () => {
-        console.log("TODO! Complete your shopping trip.")
     }
 
     return (
@@ -51,8 +49,16 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
                 </FlexRow>
             )}
 
-            <FlexRow style={{ justifyContent: "space-around" }}>
-                <Fabric.TextField value={text} onChange={(e, newValue) => setText(newValue || "")} />
+            {!props.shoppingList || !props.shoppingList.length
+                ? <FlexRow style={{justifyContent: "center"}}>Get started by adding some items to your shopping list!</FlexRow>
+                : null}
+
+            <FlexRow style={{ justifyContent: "space-between" }}>
+                <Fabric.TextField
+                    styles={{ root: { minWidth: "200px", width: "50%" } }}
+                    value={text}
+                    onChange={(e, newValue) => setText(newValue || "")}
+                />
                 <Fabric.PrimaryButton
                     text="Add item"
                     iconProps={{ iconName: "Add" }}
@@ -60,11 +66,10 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
                     disabled={!text}
                 />
                 <Fabric.DefaultButton
-                    style={{ marginLeft: undefined }}
                     text="Trip Complete"
                     iconProps={{ iconName: "ShoppingCart" }}
-                    onClick={CompleteTrip}
-                    disabled={props.shoppingList.length < 1 && props.shoppingList.some(i => i.purchased)}
+                    onClick={props.onComplete}
+                    disabled={props.shoppingList.length < 1 || !props.shoppingList.some(i => i.purchased)}
                 />
             </FlexRow>
         </>
