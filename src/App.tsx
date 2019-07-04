@@ -93,10 +93,21 @@ const App: React.FC = () => {
       break;
   }
 
-  return <FlexRow column style={{ height: "100%", width: "100%", position: "absolute" }}>
-    <MenuBar menuItems={menuItems} setView={setView} open={!content} view={view} />
-    {content}
-  </FlexRow>;
+  return (
+    <FlexRow
+      column
+      style={{
+        height: "100%",
+        width: "100%",
+        position: "absolute",
+        alignItems: "center"
+      }}>
+      <MenuBar menuItems={menuItems} setView={setView} open={!content} view={view} />
+      <FlexRow column style={{ width: "100%", maxWidth: "700px" }}>
+        {content}
+      </FlexRow>
+    </FlexRow>
+  );
 }
 
 export default App;

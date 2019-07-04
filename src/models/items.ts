@@ -18,6 +18,10 @@ export type Packaging =
     "Frozen" |
     "Canned";
 
+const Food = (name: string, category: Category, emoji?: string): IItemDefinition => {
+    return { name, category, emoji };
+}
+
 const GroundMeat = (name: string): IItemDefinition => {
     return {
         name,
@@ -113,7 +117,7 @@ export const Items: IItemDefinition[] = [
         expirationLenth: 21,
         emoji: "🥕",
     },
-    
+
     // DAIRY
     {
         name: "Butter",

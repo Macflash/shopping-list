@@ -3,7 +3,7 @@ import * as Fabric from 'office-ui-fabric-react';
 import { GetItem } from '../models/items';
 import { IFridgeItem, IShoppingItem } from '../models/models';
 import { FlexRow } from './flexrow';
-import { Emoji } from './emoji';
+import { Emoji, NameAndEmoji } from './emoji';
 
 export const ExpirationRow: React.FC<{ item: IFridgeItem | IShoppingItem, checked?: boolean, onCheckboxChange?: (ev: any, checked?: boolean) => void }> = props => {
     let margin = "0 10px";
@@ -41,32 +41,18 @@ export const ExpirationRow: React.FC<{ item: IFridgeItem | IShoppingItem, checke
         }
     }
 
-    let e = GetItem(props.item.name);
-    let emoji = null;
-    if (e) {
-        emoji = e.emoji;
-    }
-
-    let nameLabel = props.item.name;
-    if (emoji) {
-        nameLabel = `${emoji} ${nameLabel}`;
-    }
+    let nameLabel = NameAndEmoji(props.item.name);
 
     return <FlexRow>
-        {props.onCheckboxChange
-            && <Fabric.Checkbox
+        {props.onCheckboxChange ?
+            <Fabric.Checkbox
                 checked={props.checked}
                 onChange={props.onCheckboxChange}
                 label={nameLabel}
-            />
-        }
-
-        {!props.onCheckboxChange &&
-            <>
-                <Emoji name={props.item.name} />
-                <div style={{ textDecoration, color: textColor }}>{nameLabel}</div>
-            </>
-        }
+            /> :
+            <div style={{ textDecoration, color: textColor }}>
+                {nameLabel}
+            </div>}
 
         <div style={{
             color: expiryColor,
