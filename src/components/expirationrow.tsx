@@ -47,19 +47,24 @@ export const ExpirationRow: React.FC<{ item: IFridgeItem | IShoppingItem, checke
         emoji = e.emoji;
     }
 
+    let nameLabel = props.item.name;
+    if (emoji) {
+        nameLabel = `${emoji} ${nameLabel}`;
+    }
+
     return <FlexRow>
         {props.onCheckboxChange
             && <Fabric.Checkbox
                 checked={props.checked}
                 onChange={props.onCheckboxChange}
-                label={(emoji && emoji + " ") + props.item.name}
+                label={nameLabel}
             />
         }
 
         {!props.onCheckboxChange &&
             <>
                 <Emoji name={props.item.name} />
-                <div style={{ textDecoration, color: textColor }}>{props.item.name}</div>
+                <div style={{ textDecoration, color: textColor }}>{nameLabel}</div>
             </>
         }
 
