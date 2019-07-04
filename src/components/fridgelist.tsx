@@ -5,6 +5,7 @@ import { IShoppingItem, IFridgeItem, IItemDefinition } from '../models/models';
 import { ItemPicker } from './itemPicker';
 import { CategoryList } from './categorylist';
 import { ActionList } from './actionlist';
+import { ExpirationRow } from './expirationrow';
 
 type FridgeListProps = {
     fridgeList: IFridgeItem[];
@@ -33,50 +34,14 @@ export const FridgeList: React.FC<FridgeListProps> = props => {
             list={[
                 <CategoryList
                     items={props.fridgeList}
-                    renderItem={(item, index) => {
-                        let expiryContent = null;
-                        let expiryColor = "darkgrey";
-
-                        let textColor = undefined;
-                        let textDecoration = undefined;
-
-                        let expiryDate = new Date(item.expires);
-                        let expiryString = expiryDate.toLocaleDateString("default", { weekday: "long", day: "numeric", month: "numeric" });
-
-                        let longDate = new Date();
-                        longDate.setDate(longDate.getDate() + 30);
-
-                        var closeDate = new Date();
-                        closeDate.setDate(closeDate.getDate() + 3);
-
-                        var currentDate = new Date();
-
-                        if (expiryDate <= currentDate) {
-                            expiryContent = "Expired";
-                            expiryColor = "red";
-                            textDecoration = "line-through";
-                            textColor = "darkgrey";
-                        }
-                        else if (expiryDate <= closeDate) {
-                            expiryColor = "red";
-                            expiryContent = "Expires " + expiryString;
-                        }
-                        else if (expiryDate <= longDate) {
-                            expiryContent = "Expires " + expiryString;
-                        }
-
-                        return <FlexRow>
-                            <div style={{textDecoration, color: textColor}}>{item.name}</div>
-                            <div style={{ color: expiryColor, margin: "0 10px", marginLeft: "auto", fontSize: "80%", fontStyle: "italic" }}>
-                                {expiryContent}
-                            </div>
+                    renderItem={(item, index) =>
+                        <ExpirationRow item={item}>
                             <Fabric.IconButton
                                 style={{ marginLeft: undefined }}
                                 iconProps={{ iconName: "Delete" }}
                                 onClick={() => { DeleteItem(index); }}
                             />
-                        </FlexRow>
-                    }
+                        </ExpirationRow>
                     }
                 />,
                 !props.fridgeList || !props.fridgeList.length

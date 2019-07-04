@@ -2,6 +2,8 @@ import React from 'react';
 import * as Fabric from 'office-ui-fabric-react';
 import { LookupItems, GetItem } from '../models/items';
 import { IItemDefinition } from '../models/models';
+import { Emoji } from './emoji';
+import { FlexRow } from './flexrow';
 
 export const ItemPicker: React.FC<{
     styles: Fabric.IStyleFunction<Fabric.IBasePickerStyleProps, Fabric.IBasePickerStyles> | Partial<Fabric.IBasePickerStyles> | undefined,
@@ -13,6 +15,11 @@ export const ItemPicker: React.FC<{
             searchingText="Searching..."
             styles={props.styles}
             onValidateInput={input => Fabric.ValidationState.valid}
+            onRenderSuggestionsItem={(props, itemProps) =>
+                <FlexRow>
+                    <div>{props.name}</div>
+                    <Emoji name={props.name} />
+                </FlexRow>}
             onResolveSuggestions={filter => {
                 let items = LookupItems(filter).filter(i => {
                     if (props.hiddenItems && props.hiddenItems.some(hiddenName => hiddenName == i.name)) {
@@ -38,9 +45,6 @@ export const ItemPicker: React.FC<{
             onItemSelected={selectedItem => {
                 if (selectedItem) {
                     let definedItem = GetItem(selectedItem.name);
-
-                    console.log(definedItem);
-
                     props.onAddItem(definedItem || {
                         name: selectedItem.name,
                         category: "Other"

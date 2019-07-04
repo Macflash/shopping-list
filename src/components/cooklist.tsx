@@ -6,6 +6,7 @@ import { ItemPicker } from './itemPicker';
 import { CategoryList } from './categorylist';
 import { ActionList } from './actionlist';
 import { Category } from '../models/items';
+import { ExpirationRow } from './expirationrow';
 
 type CookListProps = {
     fridgeList: IFridgeItem[];
@@ -17,12 +18,12 @@ export const CookList: React.FC<CookListProps> = props => {
     let margin = "0 5px";
 
     // we want to get just the closest expiration date items for each category
-    const minValues: {[category: string]: Date} = {};
+    const minValues: { [category: string]: Date } = {};
 
     props.fridgeList.filter(item => new Date(item.expires) > new Date()).forEach(item => {
         let expiry = new Date(item.expires);
         item.expires = expiry;
-        if(!minValues[item.category] || minValues[item.category] > expiry){
+        if (!minValues[item.category] || minValues[item.category] > expiry) {
             minValues[item.category] = expiry;
         }
     });
@@ -38,11 +39,10 @@ export const CookList: React.FC<CookListProps> = props => {
             list={[
                 <CategoryList
                     items={items}
-                    renderItem={(item, index) => <FlexRow>
-                        <Fabric.Checkbox
-                            label={item.name}
-                        />
-                    </FlexRow>}
+                    renderItem={(item, index) =>
+                        <ExpirationRow item={item}>
+                            <Fabric.Checkbox />
+                        </ExpirationRow>}
                 />
             ]}
 

@@ -11,21 +11,23 @@ export const MenuBar: React.FC<{ open?: boolean, menuItems: IMenuItem[], view: V
 
     return (
         <FlexRow column={true} style={{ backgroundColor: "#F5F5F5" }}>
-            <FlexRow style={style}>
+            <FlexRow style={style} onClick={() => setOpen(!open)} >
                 <Fabric.Icon iconName={props.menuItems.find(i => i.key == props.view)!.icon} />
                 <HeaderRow sub text={props.view} />
-                <Fabric.IconButton style={{ marginLeft: "auto" }} iconProps={{ iconName: "CollapseMenu" }} onClick={() => setOpen(!open)} />
+                <Fabric.IconButton style={{ marginLeft: "auto" }} iconProps={{ iconName: "CollapseMenu" }} />
             </FlexRow>
             {props.open || open ?
                 props.menuItems.filter(item => item.key != props.view).map(item =>
-                    <FlexRow style={style}>
+                    <FlexRow
+                        style={style}
+                        onClick={() => {
+                            setOpen(false);
+                            props.setView(item.key);
+                        }}
+                    >
                         <Fabric.ActionButton
                             iconProps={{ iconName: item.icon }}
                             text={item.key}
-                            onClick={() => {
-                                setOpen(false);
-                                props.setView(item.key);
-                            }}
                         />
                     </FlexRow>
                 )

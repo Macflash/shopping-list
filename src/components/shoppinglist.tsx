@@ -5,6 +5,8 @@ import { IShoppingItem, IItemDefinition } from '../models/models';
 import { ItemPicker } from './itemPicker';
 import { CategoryList } from './categorylist';
 import { ActionList } from './actionlist';
+import { Emoji } from './emoji';
+import { ExpirationRow } from './expirationrow';
 
 type ShoppingListProps = {
     onComplete: () => void;
@@ -36,21 +38,18 @@ export const ShoppingList: React.FC<ShoppingListProps> = props => {
             list={[
                 <CategoryList
                     items={props.shoppingList}
-                    renderItem={(item, index) => <FlexRow>
-                        <Fabric.Checkbox
-                            label={item.name}
-                            checked={item.purchased}
-                            onChange={(ev, checked) => {
-                                PurchaseItem(index, checked || false);
-                            }}
-                        />
-                        {item.emoji ? <div style={{ margin }}>{item.emoji}</div> : null}
+                    renderItem={(item, index) => <ExpirationRow item={item}
+                        checked={item.purchased}
+                        onCheckboxChange={(ev, checked) => {
+                            PurchaseItem(index, checked || false);
+                        }}
+                    >
                         <Fabric.IconButton
                             style={{ marginLeft: "auto" }}
                             iconProps={{ iconName: "Delete" }}
                             onClick={() => { DeleteItem(index); }}
                         />
-                    </FlexRow>}
+                    </ExpirationRow>}
                 />,
                 !props.shoppingList || !props.shoppingList.length
                     ? <FlexRow style={{ justifyContent: "center", fontWeight: 300 }}>Get started by adding some items to your shopping list!</FlexRow>
